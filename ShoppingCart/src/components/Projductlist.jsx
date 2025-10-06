@@ -1,17 +1,39 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import Navbar from './Navbar'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchProducts } from '../features/ShopCart/productSlice'
 
 function Projductlist() {
+  const {items: products, status} = useSelector((state)=>state.products)
+
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    if(status === 'idle'){
+      dispatch(fetchProducts())
+    }
+  },[status])
+
+  if(status==='Loading') return <p> Loading. Plaese wait</p>
+  if(status==='Failed') return <p> failed. Plaese try again.</p>
+
   return (
     <>
       <Navbar/>
-      <div className="product-list">
-        <div className="product-card">
-          <img src="image url" alt="image" />
-          <h2>Product Title</h2>
-          <p>Price : $300</p>
-          <button>Add To Cart</button>
+        <div>
         </div>
+      <div className="product-list">
+
+        {products.map((product)=>(
+          <div className="product-card">
+          <img src={product.image} alt="image" />
+          <h2>{product.title.length>20? `${product.title.slice(0,20)}`: product.title}</h2>
+          <p>$ {product.price}</p>
+          <button>Add To Cart</button>
+          </div>
+        ))}
+
+        
       </div>
     </>
     
