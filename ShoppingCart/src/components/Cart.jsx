@@ -1,28 +1,40 @@
 import React from 'react'
-
+import { useSelector } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 function Cart() {
+
+  const { items:cartItems , tempItems , totalPrice} = useSelector(state=>state.cart)
+
+  const navigate = useNavigate()
+
   return (
 
     <div className="wrapper">
       <div className="cart-page-container">
         <div className="cart-container">
           <h2>Your Items :</h2>
-          <div className="cart-item">
-            <img src="image url" alt="image" />
+
+          {
+            cartItems.map((item)=>(
+              <div className="cart-item" key={item.id}>
+            <img src={item.image} alt="image" />
             <div className="cart-item-details">
-              <h3>Image Title</h3>
+              <h3>{item.title}</h3>
               <p>
-                Price: $500
+                Price: $ {item.price}
               </p>
               <input type="number" min='1' />
               <button>Update</button>
               <button>Remove</button>
             </div>
           </div>
+            ))
+            }
+
           <div className="cart-total">
-          <p>Total : $200</p>
+          <p>Total : {totalPrice}</p>
         </div>
-        <button className='back-button'>Go Back to Shopping</button>
+        <button className='back-button' onClick={()=> navigate('/')}  >Go Back to Shopping</button>
         </div>
         
       </div>
