@@ -1,11 +1,16 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import { removeItem } from '../features/ShopCart/cartSlice'
+import { useDispatch } from 'react-redux'
 function Cart() {
-
+  const dispatch = useDispatch()
   const { items:cartItems , tempItems , totalPrice} = useSelector(state=>state.cart)
 
   const navigate = useNavigate()
+  const handleRemoveItem = (id) => {
+    dispatch(removeItem(id))
+  }
 
   return (
 
@@ -25,7 +30,7 @@ function Cart() {
               </p>
               <input type="number" min='1' />
               <button>Update</button>
-              <button>Remove</button>
+              <button onClick={()=>handleRemoveItem(item.id)}>Remove</button>
             </div>
           </div>
             ))
