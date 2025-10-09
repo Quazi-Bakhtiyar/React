@@ -1,15 +1,27 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
-import { removeItem } from '../features/ShopCart/cartSlice'
+import { removeItem} from '../features/ShopCart/cartSlice'
 import { useDispatch } from 'react-redux'
+import {updateTempQuantity} from '../features/ShopCart/cartSlice'
+import { applyTempUpdates } from '../features/ShopCart/cartSlice'
+
 function Cart() {
   const dispatch = useDispatch()
   const { items:cartItems , tempItems , totalPrice} = useSelector(state=>state.cart)
-
+  useSelector(state=>console.log(state.cart))
   const navigate = useNavigate()
   const handleRemoveItem = (id) => {
     dispatch(removeItem(id))
+  }
+
+  const handleUpdateQuantity = (id,quantity)=>{
+    console.log({id,quantity})
+    dispatch(updateTempQuantity({id,quantity}))
+  }
+
+  const handleApplyUpdates = (item)=>{
+    dispatch(applyTempUpdates(item.id))
   }
 
   return (
@@ -28,8 +40,15 @@ function Cart() {
               <p>
                 Price: $ {item.price}
               </p>
-              <input type="number" min='1' />
-              <button>Update</button>
+              <input 
+                type="number" 
+                min="1"
+                value={tempItems.find((t) => t.id === item.id)?.quantity || item.quantity}
+                onChange={(e)=>handleUpdateQuantity(item.id, parseInt(e.target.value))}
+                />
+
+              <button
+              onClick={()=>handleApplyUpdates(item)} >Update</button>
               <button onClick={()=>handleRemoveItem(item.id)}>Remove</button>
             </div>
           </div>

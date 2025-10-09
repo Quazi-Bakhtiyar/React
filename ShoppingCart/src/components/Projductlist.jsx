@@ -31,6 +31,7 @@ function Projductlist() {
           <p>$ {product.price}</p>
           <button onClick={() => dispatch(addToCart(product))}>
             Add To Cart
+            
           </button>
           </div>
         ))}
