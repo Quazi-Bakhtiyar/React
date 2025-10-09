@@ -16,7 +16,6 @@ const cartSlice = createSlice({
             }else{
                 state.items.push({...action.payload, quantity: 1})
             }
-            alert("added item")
             state.tempItems = [...state.items]
             state.totalPrice = state.items.reduce((sum , item) => sum+item.price * item.quantity, 0)  
         }  ,
@@ -31,6 +30,8 @@ const cartSlice = createSlice({
         removeItem(state,action){
             state.items = state.items.filter((item)=>item.id!==action.payload)
             state.tempItems = [...state.items]
+            state.totalPrice = state.items.reduce((sum , item) => sum+item.price * item.quantity, 0)  
+        
         },
         applyTempUpdates(state,action){
             const tempItem = state.tempItems.find((item)=>item.id === action.payload)

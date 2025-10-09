@@ -9,14 +9,13 @@ import { applyTempUpdates } from '../features/ShopCart/cartSlice'
 function Cart() {
   const dispatch = useDispatch()
   const { items:cartItems , tempItems , totalPrice} = useSelector(state=>state.cart)
-  useSelector(state=>console.log(state.cart))
+
   const navigate = useNavigate()
   const handleRemoveItem = (id) => {
     dispatch(removeItem(id))
   }
 
   const handleUpdateQuantity = (id,quantity)=>{
-    console.log({id,quantity})
     dispatch(updateTempQuantity({id,quantity}))
   }
 
@@ -28,7 +27,17 @@ function Cart() {
 
     <div className="wrapper">
       <div className="cart-page-container">
-        <div className="cart-container">
+
+      {
+        cartItems.length===0?(
+          <div className='cart-empty' >
+
+          <h2>Cart is empty</h2>
+          <button onClick={()=>navigate('/')}>back to home</button>
+          </div>
+        ):
+
+        (<div className="cart-container">
           <h2>Your Items :</h2>
 
           {
@@ -56,10 +65,10 @@ function Cart() {
             }
 
           <div className="cart-total">
-          <p>Total : {totalPrice}</p>
+          <p>Total : {totalPrice.toFixed(2)}</p>
         </div>
         <button className='back-button' onClick={()=> navigate('/')}  >Go Back to Shopping</button>
-        </div>
+        </div>)}
         
       </div>
     </div>
