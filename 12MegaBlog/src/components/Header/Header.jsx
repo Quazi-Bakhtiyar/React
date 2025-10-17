@@ -22,7 +22,7 @@ function Header() {
     },
 
     {
-      name : Signup,
+      name : 'Signup',
       Slug : '/signup',
       active: !authStatus
     },
