@@ -1,6 +1,5 @@
 import conf from '../conf/conf'
-import {Client ,ID, Databases , Storage, Query,} from 'appwrite';
-
+import {Client, ID, Databases, Storage, Query, Permission, Role} from 'appwrite';
 export class Service {
     client = new Client();
     databases;
@@ -88,7 +87,8 @@ export class Service {
         try{
             return await this.databases.listDocuments(conf.appwriteDatabaseId,conf.appwriteCollectionId,queries)
         }catch(err){
-            throw(err)
+            console.log("Error:", err);
+            return { documents: [] } 
         }
     }
 
@@ -99,7 +99,10 @@ export class Service {
             return this.bucket.createFile(
                 conf.appwriteBucketId,
                 ID.unique(),
-                file
+                file,
+                [
+                    Permission.read(Role.any()) 
+                ]
             )
         }
         catch(err){
@@ -118,10 +121,7 @@ export class Service {
 
    
     getFilePreview(fileId){
-        return this.bucket.getFilePreview(
-            conf.appwriteBucketId,
-            fileId
-        )
+        return `${conf.appwriteUrl}/storage/buckets/${conf.appwriteBucketId}/files/${fileId}/preview?project=${conf.appwriteProjectId}`
     }
 
 }
