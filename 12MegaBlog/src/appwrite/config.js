@@ -121,8 +121,9 @@ export class Service {
 
    
     getFilePreview(fileId){
-        return `${conf.appwriteUrl}/storage/buckets/${conf.appwriteBucketId}/files/${fileId}/preview?project=${conf.appwriteProjectId}`
+        return `${conf.appwriteUrl}/storage/buckets/${conf.appwriteBucketId}/files/${fileId}/view?project=${conf.appwriteProjectId}`
     }
+
 
 }
 
